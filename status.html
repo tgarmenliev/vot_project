@@ -1,34 +1,32 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Website Status</title>
-	<style>
-		table, th, td {
-		  border: 1px solid black;
-		  border-collapse: collapse;
-		  padding: 5px;
-		}
-	</style>
-</head>
-<body>
-	<h1>Website Status</h1>
-	<table>
-		<thead>
-			<tr>
-				<th>Website URL</th>
-				<th>Status</th>
-				<th>Last Checked</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for website in websites %}
-			<tr>
-				<td>{{ website.url }}</td>
-				<td>{{ website.status }}</td>
-				<td>{{ website.last_checked }}</td>
-			</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-</body>
+  <head>
+    <title>Status</title>
+    <style>
+      table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        padding: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Website Status</h1>
+    <table>
+      <tr>
+        <th>URL</th>
+        <th>Last Online</th>
+        <th>Bounces</th>
+      </tr>
+      {% for bounce in bounces %}
+        <tr>
+          <td>{{ bounce.url }}</td>
+          <td>{{ bounce.last_online }}</td>
+          <td>{{ bounce.bounces }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+    <br>
+    <a href="/">Add a new website</a>
+  </body>
 </html>
