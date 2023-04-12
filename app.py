@@ -15,6 +15,17 @@ connection = pymysql.connect(host='localhost',
                              charset='utf8mb4',
                              cursorclass=pymysql.cursors.DictCursor)
 
+# Create table if not exists
+with connection.cursor() as cursor:
+    cursor.execute("""CREATE TABLE IF NOT EXISTS `urls` (
+                      `id` int(11) NOT NULL AUTO_INCREMENT,
+                      `url` varchar(255) NOT NULL,
+                      `last_online` TIMESTAMP DEFAULT NULL,
+                      `bounces` int(11) NOT NULL DEFAULT '0',
+                      PRIMARY KEY (`id`)
+                      ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci""")
+    connection.commit()
+
 def is_online(url):
     try:
         response = requests.get(url)
@@ -31,7 +42,7 @@ def track_bounces():
             for url in urls:
                 url = url['url']
                 if is_online(url):
-                    sql = "UPDATE `urls` SET `last_checked`=%s, `bounces`=0 WHERE `url`=%s"
+                    sql = "UPDATE `urls` SET `last_online`=%s, `bounces`=0 WHERE `url`=%s"
                     current_time = datetime.now()
                     cursor.execute(sql, (datetime.now(), url))
                     connection.commit()
@@ -64,7 +75,7 @@ def index():
 def add_url():
     url = request.form['url']
     with connection.cursor() as cursor:
-        sql = "INSERT INTO `urls` (`url`, `last_checked`, `bounces`) VALUES (%s, %s, %s)"
+        sql = "INSERT INTO `urls` (`url`, `last_online`, `bounces`) VALUES (%s, %s, %s)"
         cursor.execute(sql, (url, datetime.now(), 0))
         connection.commit()
     return render_template('index.html', message="URL added successfully")
@@ -72,7 +83,7 @@ def add_url():
 @app.route('/status')
 def status():
     with connection.cursor() as cursor:
-        sql = "SELECT `url`, `bounces`, `last_checked` FROM `urls`"
+        sql = "SELECT `url`, `bounces`, `last_online` FROM `urls`"
         cursor.execute(sql)
         bounces = cursor.fetchall()
     return render_template('status.html', bounces=bounces)
