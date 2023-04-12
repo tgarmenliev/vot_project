@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Website Monitor</title>
+	<title>Website Bouncer</title>
 </head>
 <body>
-	<h1>Website Monitor</h1>
-	<p>Welcome to the website monitor! To check the status of your websites, please click the button below:</p>
-	<a href="/status"><button>Check Status</button></a>
+	<h1>Website Bouncer</h1>
+	<form method="POST" action="{{ url_for('add_url') }}">
+		<label for="url">Enter a website URL:</label>
+		<input type="text" id="url" name="url" required>
+		<button type="submit">Add URL</button>
+	</form>
 </body>
 </html>
