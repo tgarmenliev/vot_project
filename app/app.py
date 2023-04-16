@@ -12,13 +12,25 @@ from flask_mail import Mail, Message
 app = Flask(__name__)
 
 # Connect to the database
-connection = pymysql.connect(host='db',
+connection = pymysql.connect(host='localhost',
                              user='fluser',
                              password='Password123#@!',
                              db='flapp',
-                             port='3306',
+                             port='32000',
                              charset='utf8mb4',
                              cursorclass=pymysql.cursors.DictCursor)
+                             
+"""
+connection = pymysql.connect(
+    host = 'db',
+    port = 3307,
+    user = 'fluser',
+    passwd = 'Password123#@!',
+    db = 'flapp'
+)"""
+
+#pymysql.connect(db='flapp', user='fluser', passwd='Password123#@!', unix_socket="/tmp/mysql.sock")
+#pymysql.connect(db='flapp', user='fluser', passwd='Password123#@!', host='db', port=3306)
 
 # configure Flask-Mail
 app.config['MAIL_SERVER']='smtp.mail.bg'
@@ -167,4 +179,4 @@ if __name__ == '__main__':
     t = threading.Thread(target=track_bounces)
     t.start()
 
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port=5000)
