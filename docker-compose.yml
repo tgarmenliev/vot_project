@@ -1,17 +1,25 @@
-version: "2"
-services:
-  app:
-    build: ./app
-    links:
-      - db
-    ports:
-      - "5000:5000"
+version: '3'
 
+services:
   db:
     image: mysql:5.7
     ports:
       - "32000:3306"
+    volumes:
+      - ./mysql-data:/var/lib/mysql
+    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: 'Password123#@!'
-    volumes:
-      - ./db:/docker-entrypoint-initdb.d/:ro
+      MYSQL_DATABASE: 'flapp'
+      MYSQL_USER: 'fluser'
+      MYSQL_PASSWORD: 'Password123#@!'
+
+  app:
+    build: .
+    restart: always
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: mysql+pymysql://fluser:Password123#@!@db:3306/flapp
