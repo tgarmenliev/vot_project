@@ -1,0 +1,7 @@
+cryptography
+Flask
+Flask-MySQL==1.5.1
+Flask-Mail==0.9.1
+pymysql==1.0.2
+requests==2.25.1
+mysql-connector
