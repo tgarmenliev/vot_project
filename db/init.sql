@@ -1,6 +1,7 @@
 DROP DATABASE IF EXISTS flapp;
 CREATE DATABASE flapp;
 use flapp;
+GRANT ALL PRIVILEGES ON flapp.* TO 'fluser'@'%';
 
 CREATE TABLE IF NOT EXISTS `urls` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
