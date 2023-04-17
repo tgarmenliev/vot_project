@@ -12,7 +12,7 @@ from flask_mail import Mail, Message
 app = Flask(__name__)
 
 # Connect to the database
-connection = pymysql.connect(host='localhost',
+connection = pymysql.connect(host='db',
                              user='fluser',
                              password='Password123#@!',
                              db='flapp',
