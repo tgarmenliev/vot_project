@@ -22,4 +22,4 @@ services:
     depends_on:
       - db
     environment:
-      DATABASE_URL: mysql+pymysql://fluser:Password123#@!@db:3306/flapp
+      DATABASE_URL: mysql+pymysql://'fluser':'Password123#@!'@'db':'32000'/'flapp'
